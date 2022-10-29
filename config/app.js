@@ -1,3 +1,9 @@
+/**
+ * Name: Qi Yang  
+ * StudentID: 301313468     
+ * Date: 2022/10/29
+ */
+
 let createError = require('http-errors');
 let express = require('express');
 let path = require('path');
@@ -44,9 +50,10 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/todo', todoRouter);
 
-// catch 404 and forward to error handler
+// catch 404 and forward to 404 page
 app.use(function(req, res, next) {
-  next(createError(404));
+  next(createError(404),
+    res.status(404).render("404", { pageTitle: "Page not found" }));
 });
 
 // error handler

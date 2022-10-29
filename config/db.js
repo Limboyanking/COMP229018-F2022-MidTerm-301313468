@@ -1,5 +1,10 @@
-// Do not expose your credentials in your code.
-let atlasDB = "mongodb+srv://<username>:<passoword>@<cluster>/todo?retryWrites=true&w=majority";
+/**
+ * Name: Qi Yang  
+ * StudentID: 301313468     
+ * Date: 2022/10/29
+ */
+
+let atlasDB = "mongodb+srv://eric:eric@cluster0.dosf3fq.mongodb.net/temp?retryWrites=true&w=majority";
 
 // Database setup
 let mongoose = require('mongoose');

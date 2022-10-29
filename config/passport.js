@@ -1,3 +1,9 @@
+/**
+ * Name: Qi Yang  
+ * StudentID: 301313468     
+ * Date: 2022/10/29
+ */
+
 const passport = require('passport');
 
 module.exports = function() {

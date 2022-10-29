@@ -1,3 +1,10 @@
+/**
+ * Name: Qi Yang  
+ * StudentID: 301313468     
+ * Date: 2022/10/29
+ */
+
+
 // create a reference to the model
 let TodoModel = require('../models/todo');
 
@@ -47,7 +54,24 @@ module.exports.details = (req, res, next) => {
 // Gets a todo by id and renders the Edit form using the add_edit.ejs template
 module.exports.displayEditPage = (req, res, next) => {
     
-    // ADD YOUR CODE HERE
+    let id = req.params.id
+
+    TodoModel.findById(id, (err, todoToEdit) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            //show the edit view
+            res.render('todo/add_edit', {
+                title: 'Edit Todo-task', 
+                todo: todoToEdit,
+                userName: req.user ? req.user.username : ''
+            })
+        }
+    });
 
 }
 
@@ -65,21 +89,51 @@ module.exports.processEditPage = (req, res, next) => {
         complete: req.body.complete ? true : false
     });
 
-    // ADD YOUR CODE HERE
+    TodoModel.updateOne({_id: id}, updatedTodo, (err) => {
+        if(err)
+        {
+            console.log(err);
+            return res.end(err);
+        }
+        else
+        {
+            // console.log(req.body);
+            // refresh the list
+            res.redirect('/todo/list');
+        }
+    });
 
 }
 
 // Deletes a todo based on its id.
 module.exports.performDelete = (req, res, next) => {
 
-    // ADD YOUR CODE HERE
+    let id = req.params.id;
+
+    TodoModel.remove({_id: id}, (err) => {
+        if(err)
+        {
+            console.log(err);
+            return res.end(err);
+        }
+        else
+        {
+            // refresh the list
+            res.redirect('/todo/list');
+        }
+    });
 
 }
 
 // Renders the Add form using the add_edit.ejs template
 module.exports.displayAddPage = (req, res, next) => {
+    let newTodo = TodoModel();
 
-    // ADD YOUR CODE HERE          
+    res.render('todo/add_edit', {
+        title: 'Add new Todo-task',
+        todo: newTodo,
+        userName: req.user ? req.user.username : ''
+    })               
 
 }
 
@@ -95,6 +149,16 @@ module.exports.processAddPage = (req, res, next) => {
         complete: req.body.complete ? true : false
     });
 
-    // ADD YOUR CODE HERE
-    
+    TodoModel.create(newTodo, (err,todo) => {
+        if(err){
+            console.log(err);
+            return res.end(err);
+        }
+        else{
+            //refresh the todo list
+            console.log(todo);
+            res.redirect('/todo/list');
+        }
+    });
+
 }
